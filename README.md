@@ -20,13 +20,15 @@ The goal of this project is to provide a seamless experience for searching, book
 
 - **Backend**: Laravel 12 (PHP 8.2+)  
 - **Database**: MySQL / MariaDB  
-- **Frontend**: Blade / Tailwind CSS (extendable to Inertia or React if needed)  
-- **Tools**: Composer, Artisan CLI, Laragon (for local dev)  
+- **Frontend**: Blade / Tailwind CSS
+- **Tools**: Composer, Artisan CLI, Laragon
+- **Payment**: Midtrans
 
 ---
 
 ## 📂 Project Structure
 
+```
 aero/
 ├── app/ # Application core
 ├── bootstrap/ # Bootstrap files
@@ -36,49 +38,45 @@ aero/
 ├── resources/ # Views, CSS, JS
 ├── routes/ # Web & API routes
 ├── tests/ # Test files
-└── ...
+└──
+```
 
 ---
 
 ## ⚙️ Installation & Setup
 
 1. **Clone the repository**
-   ```
-   git clone https://github.com/yourusername/aero.git
-   cd aero
-Install dependencies
+```
+git clone https://github.com/ArelSmith/aero-flight-booking.git
+cd aero-flight-booking
+```
+2. **Install dependencies**
 
+```
 composer install
 npm install && npm run dev
-Environment setup
-
+```
+3. **Environment setup**
 Copy .env.example to .env
-
 Configure your database and other environment variables:
-
-bash
-Copy
-Edit
+```
 php artisan key:generate
-Run migrations & seeders
-
-bash
-Copy
-Edit
+```
+4. **Run migrations & seeders**
+```
 php artisan migrate --seed
-Start the development server
-
-bash
-Copy
-Edit
+```
+5. **Start the development server**
+```
 php artisan serve
-🧪 Testing
-Run tests with:
+```
 
-bash
-Copy
-Edit
+## 🧪 Testing
+Run tests with:
+```
 php artisan test
+```
+
 🛤️ Roadmap
  Implement payment gateway (Stripe/Midtrans)
 
