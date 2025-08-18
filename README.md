@@ -71,7 +71,7 @@ php artisan migrate --seed
 php artisan serve
 ```
 
---
+---
 
 ## 🧪 Testing
 Run tests with:
