@@ -14,9 +14,10 @@ return new class extends Migration
         Schema::create('flight_seats', function (Blueprint $table) {
             $table->id();
             $table->foreignId('flight_id')->constrained()->onDelete('cascade');
+            $table->string('name');
             $table->string('row');
             $table->string('column');
-            $table->enum('class', ['economy', 'business']); 
+            $table->enum('class_type', ['economy', 'business']); 
             $table->boolean('is_available')->default(false);
             $table->softDeletes();
             $table->timestamps();
