@@ -25,7 +25,7 @@ class FlightsTable
                 TextColumn::make('airline.name'),
                 TextColumn::make('segments')
                     ->label('Route & Duration')
-                    ->formatStateUsing(function (Flight $record): string {
+                    ->getStateUsing(function (Flight $record): string {
                         $firstSegment = $record->segments->first();
                         $lastSegment = $record->segments->last();
                 
