@@ -140,7 +140,6 @@
         <div class="swiper !w-full overflow-x-hidden">
             <div class="swiper-wrapper">
               @foreach ($airports as $airport)
-              {!! asset('storage/' . $airport->image)  !!}
                   <div class="swiper-slide !w-fit first:ml-[calc(((100%-1280px)/2)+75px-24px)]">
                     <a href="#" class="card">
                         <div
