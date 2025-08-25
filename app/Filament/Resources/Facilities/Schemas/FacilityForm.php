@@ -16,6 +16,7 @@ class FacilityForm
                     ->image()
                     ->directory('facilities')
                     ->required()
+                    ->disk('public')
                     ->columnSpan(2),
                 TextInput::make('name')
                     ->required(),

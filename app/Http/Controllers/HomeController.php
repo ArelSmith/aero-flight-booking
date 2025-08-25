@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Interfaces\AirportRepositoryInterface;
-use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -17,6 +16,6 @@ class HomeController extends Controller
     public function index()
     {
         $airports = $this->airportRepository->getAllAirports();
-        return view('home', compact('airports'));
+        return view('pages.home', compact('airports'));
     }
 }

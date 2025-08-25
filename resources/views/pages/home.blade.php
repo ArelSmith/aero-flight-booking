@@ -33,7 +33,8 @@
                             <img src="assets/images/icons/departure.svg" class="w-[50px] flex shrink-0" alt="icon">
                             <div class="text-left">
                                 <p class="text-sm text-garuda-grey">Departure</p>
-                                <p id="Departure-Label" class="font-semibold text-lg mt-[2px] text-nowrap">Select Departure</p>
+                                <p id="Departure-Label" class="font-semibold text-lg mt-[2px] text-nowrap">Select Departure
+                                </p>
                             </div>
                         </button>
                         <div id="Departure-Dropdown"
@@ -139,27 +140,28 @@
         </div>
         <div class="swiper !w-full overflow-x-hidden">
             <div class="swiper-wrapper">
-              @foreach ($airports as $airport)
-                  <div class="swiper-slide !w-fit first:ml-[calc(((100%-1280px)/2)+75px-24px)]">
-                    <a href="#" class="card">
-                        <div
-                            class="flex items-end w-[230px] h-[280px] shrink-0 rounded-[30px] bg-white overflow-hidden hover:border-2 hover:border-garuda-blue hover:p-[10px] transition-all duration-300">
-                            <img src="{{ asset('storage/' . $airport->image) }}"
-                                class="w-full h-full object-cover rounded-[30px]" alt="thumbnails">
+                @foreach ($airports as $airport)
+                    <div class="swiper-slide !w-fit first:ml-[calc(((100%-1280px)/2)+75px-24px)]">
+                        <a href="#" class="card">
                             <div
-                                class="absolute flex w-[210px] items-center bottom-[10px] left-[10px] right-[10px] rounded-[20px] p-[10px] gap-[10px] bg-white">
-                                <img src="assets/images/icons/global-black.svg" class="w-6 flex shrink-0" alt="icon">
-                                <div>
-                                    <p class="font-semibold">{{ $airport->name }} ({{ $airport->iata_code }})</p>
-                                    <p class="text-sm text-garuda-grey">{{ $airport->location }}</p>
+                                class="flex items-end w-[230px] h-[280px] shrink-0 rounded-[30px] bg-white overflow-hidden hover:border-2 hover:border-garuda-blue hover:p-[10px] transition-all duration-300">
+                                <img src="{{ asset('storage/' . $airport->image) }}"
+                                    class="w-full h-full object-cover rounded-[30px]" alt="thumbnails">
+                                <div div
+                                    class="absolute flex w-[210px] items-center bottom-[10px] left-[10px] right-[10px] rounded-[20px] p-[10px] gap-[10px] bg-white">
+                                    <img src="{{ asset('assets/images/icons/global-black.svg') }}" class="w-6 flex shrink-0"
+                                        alt="icon">
+                                    <div>
+                                        <p class="font-semibold">{{ $airport->name }} ({{ $airport->iata_code }})</p>
+                                        <p class="text-sm text-garuda-grey">{{ $airport->location }}</p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </a>
-                </div>
-              @endforeach
-                
-                
+                        </a>
+                    </div>
+                @endforeach
+
+
             </div>
         </div>
     </section>
