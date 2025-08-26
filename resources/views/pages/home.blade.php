@@ -20,7 +20,8 @@
         <p class="text-lg leading-8">Your truly great experience starts here with us <br>that lorem dolor amet si package
             exclusively matter.</p>
     </div>
-    <form action="available-flights.html" class="relative flex flex-col w-full max-w-[1280px] px-[75px] mx-auto mt-[86px]">
+    <form action="{{ route('flight.index') }}" method="GET"
+        class="relative flex flex-col w-full max-w-[1280px] px-[75px] mx-auto mt-[86px]">
         <div class="flex flex-col rounded-[30px] p-[30px] gap-4 bg-white">
             <h2 class="font-bold text-xl leading-[30px]">Book Your Next Flight</h2>
             <div class="flex items-center gap-5">
@@ -44,7 +45,7 @@
                                     <label
                                         class="relative flex items-center rounded-[10px] gap-[10px] p-0 has-[:checked]:p-[10px] has-[:checked]:bg-garuda-bg-grey transition-all duration-300">
                                         <input type="radio" name="departure" id={{ $airport->iata_code }}
-                                            class="absolute top-1/2 left-1/2 opacity-0">
+                                            class="absolute top-1/2 left-1/2 opacity-0" value="{{ $airport->iata_code }}">
                                         <img src="assets/images/icons/airplane-black.svg" class="flex shrink-0 w-[34px]"
                                             alt="icon">
                                         <div class="flex flex-col gap-[2px]">
@@ -149,8 +150,8 @@
                                     class="w-full h-full object-cover rounded-[30px]" alt="thumbnails">
                                 <div div
                                     class="absolute flex w-[210px] items-center bottom-[10px] left-[10px] right-[10px] rounded-[20px] p-[10px] gap-[10px] bg-white">
-                                    <img src="{{ asset('assets/images/icons/global-black.svg') }}" class="w-6 flex shrink-0"
-                                        alt="icon">
+                                    <img src="{{ asset('assets/images/icons/global-black.svg') }}"
+                                        class="w-6 flex shrink-0" alt="icon">
                                     <div>
                                         <p class="font-semibold">{{ $airport->name }} ({{ $airport->iata_code }})</p>
                                         <p class="text-sm text-garuda-grey">{{ $airport->location }}</p>

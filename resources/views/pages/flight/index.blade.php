@@ -11,37 +11,57 @@
 @section('content')
     <main class="relative flex flex-col w-full max-w-[1280px] px-[75px] mx-auto mt-[50px] mb-[62px]">
         <h1 class="font-extrabold text-[50px] leading-[75px]">Flight Search</h1>
-        <div class="flex w-fit rounded-[20px] p-5 gap-[30px] bg-white mt-5">
-            @if (request()->departure)
+        @if (request()->departure || request()->arrival || request()->date || request()->quantity)
+            <div class="flex w-fit rounded-[20px] p-5 gap-[30px] bg-white mt-5">
+                @if (request()->departure)
+                    <div class="flex flex-col gap-[2px]">
+                        <p class="text-sm text-garuda-grey">Departure</p>
+                        <p class="font-semibold text-lg">{{ request()->departure }}</p>
+                    </div>
+                @else
                 <div class="flex flex-col gap-[2px]">
-                    <p class="text-sm text-garuda-grey">Departure</p>
-                    <p class="font-semibold text-lg">({{ request()->departure }})</p>
-                </div>
-            @endif
+                        <p class="text-sm text-garuda-grey">Departure</p>
+                        <p class="font-semibold text-lg">-</p>
+                    </div>
+                @endif
 
-            @if (request()->arrival)
-                <div class="flex flex-col gap-[2px]">
-                    <p class="text-sm text-garuda-grey">Arrival</p>
-                    <p class="font-semibold text-lg">({{ request()->arrival }})</p>
-                </div>
-            @endif
+                @if (request()->arrival)
+                    <div class="flex flex-col gap-[2px]">
+                        <p class="text-sm text-garuda-grey">Arrival</p>
+                        <p class="font-semibold text-lg">{{ request()->arrival }}</p>
+                    </div>
+                @else
+                    <div class="flex flex-col gap-[2px]">
+                        <p class="text-sm text-garuda-grey">Arrival</p>
+                        <p class="font-semibold text-lg">-</p>
+                    </div>
+                @endif
 
-            @if (request()->date)
-                <div class="flex flex-col gap-[2px]">
-                    <p class="text-sm text-garuda-grey">Date</p>
-                    <p class="font-semibold text-lg">({{ request()->date }})</p>
-                </div>
-            @endif
+                @if (request()->date)
+                    <div class="flex flex-col gap-[2px]">
+                        <p class="text-sm text-garuda-grey">Date</p>
+                        <p class="font-semibold text-lg">{{ request()->date }}</p>
+                    </div>
+                @else
+                    <div class="flex flex-col gap-[2px]">
+                        <p class="text-sm text-garuda-grey">Date</p>
+                        <p class="font-semibold text-lg">-</p>
+                    </div>
+                @endif
 
-            @if (request()->quantity)
-                <div class="flex flex-col gap-[2px]">
-                    <p class="text-sm text-garuda-grey">Quantity</p>
-                    <p class="font-semibold text-lg">3 people</p>
-                </div>
-            @endif
-
-
-        </div>
+                @if (request()->quantity)
+                    <div class="flex flex-col gap-[2px]">
+                        <p class="text-sm text-garuda-grey">Quantity</p>
+                        <p class="font-semibold text-lg">3 people</p>
+                    </div>
+                @else
+                    <div class="flex flex-col gap-[2px]">
+                        <p class="text-sm text-garuda-grey">Quantity</p>
+                        <p class="font-semibold text-lg">-</p>
+                    </div>
+                @endif
+            </div>
+        @endif
         <div class="flex gap-[26px] mt-[30px]">
             <form id="Filter" action="#"
                 class="flex flex-col w-[320px] shrink-0 h-fit rounded-3xl border border-[#E8EFF7] p-5 gap-5 bg-white">
@@ -141,11 +161,11 @@
                                         <img src="assets/images/icons/transit-black.svg" alt="icon">
                                         <p class="font-semibold">{{ $flight->segments->last()->airport->iata_code }}</p>
                                     </div>
-                                    <p class="text-sm text-garuda-grey">Transit {{ $flight->segments->count() - 2}}x</p>
+                                    <p class="text-sm text-garuda-grey">Transit {{ $flight->segments->count() - 2 }}x</p>
                                 </div>
                                 <p class="min-w-[120px] font-semibold text-garuda-green text-center">
                                     {{ 'Rp. ' . number_format($flight->classes->first()->price, 0, ',', '.') }}</p>
-                                <a href="choose-tiers.html"
+                                <a href="{{ route('flight.show', $flight->flight_number) }}"
                                     class="rounded-full py-3 px-5 text-center bg-garuda-blue hover:shadow-[0px_14px_30px_0px_#0068FF66] transition-all duration-300">
                                     <span class="font-semibold text-white">Choose</span>
                                 </a>
@@ -154,23 +174,32 @@
                             <div class="accordion-content flex justify-between">
                                 <div class="left-content flex flex-col gap-[10px]">
                                     @foreach ($flight->segments as $segment)
-                                        <div class="{{ $loop->first ? 'departure' : ($loop->last ? 'arrival' : 'transit') }} flex items-center gap-5">
-                                          <div class="text-center w-[83px]">
-                                            <p class="font-semibold">{{ $segment->time->format('H:i') }}</p>
-                                            <p class="text-sm text-garuda-grey mt-[2px]">{{ $segment->time->format('d M Y') }}</p>
-                                          </div>
-                                          <div class="flex items-center gap-4">
-                                            <img src="assets/images/icons/{{ $loop->first ? 'departure' : ($loop->last ? 'arrival' : 'transit-round-black') }}.svg" class="w-[50px] h-[50px] flex shrink-0" alt="icon">
-                                            <div>
-                                              <p class="text-sm text-garuda-grey mt-[2px]">{{ $loop->first ? 'Departure' : ($loop->last ? 'Arrival' : 'Transit') }}</p>
-                                              <p class="font-semibold">{{ $segment->airport->name }} ({{ $segment->airport->iata_code }})</p>
+                                        <div
+                                            class="{{ $loop->first ? 'departure' : ($loop->last ? 'arrival' : 'transit') }} flex items-center gap-5">
+                                            <div class="text-center w-[83px]">
+                                                <p class="font-semibold">{{ $segment->time->format('H:i') }}</p>
+                                                <p class="text-sm text-garuda-grey mt-[2px]">
+                                                    {{ $segment->time->format('d M Y') }}</p>
                                             </div>
-                                          </div>
+                                            <div class="flex items-center gap-4">
+                                                <img src="assets/images/icons/{{ $loop->first ? 'departure' : ($loop->last ? 'arrival' : 'transit-round-black') }}.svg"
+                                                    class="w-[50px] h-[50px] flex shrink-0" alt="icon">
+                                                <div>
+                                                    <p class="text-sm text-garuda-grey mt-[2px]">
+                                                        {{ $loop->first ? 'Departure' : ($loop->last ? 'Arrival' : 'Transit') }}
+                                                    </p>
+                                                    <p class="font-semibold">{{ $segment->airport->name }}
+                                                        ({{ $segment->airport->iata_code }})
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                         @if (!$loop->last)
                                             <div class="time flex flex-col items-center w-[83px]">
                                                 <div class="h-8 border border-garuda-black border-dashed"></div>
-                                                <p class="text-xs leading-[18px] text-garuda-grey">{{ number_format($segment->time->diffInHours($flight->segments[$loop->index + 1]->time), 0) }} hours</p>
+                                                <p class="text-xs leading-[18px] text-garuda-grey">
+                                                    {{ number_format($segment->time->diffInHours($flight->segments[$loop->index + 1]->time), 0) }}
+                                                    hours</p>
                                                 <div class="h-8 border border-garuda-black border-dashed"></div>
                                             </div>
                                         @endif
@@ -181,8 +210,8 @@
                                     @foreach ($flight->classes as $class)
                                         @foreach ($class->facilities as $facility)
                                             <div class="flex items-center gap-3 even:w-[139px] shrink-0">
-                                                <img src="{{ asset('storage/' . $facility->image) }}" class="w-6 h-6 flex shrink-0"
-                                                    alt="icon">
+                                                <img src="{{ asset('storage/' . $facility->image) }}"
+                                                    class="w-6 h-6 flex shrink-0" alt="icon">
                                                 <div>
                                                     <p class="font-semibold text-sm">{{ $facility->name }}</p>
                                                     <p class="text-xs leading-[18px] text-garuda-grey">Included</p>
@@ -223,7 +252,7 @@
                                 </div>
                                 <p class="min-w-[120px] font-semibold text-garuda-green text-center">
                                     {{ 'Rp. ' . number_format($flight->classes->first()->price, 0, ',', '.') }}</p>
-                                <a href="choose-tiers.html"
+                                <a href="{{ route('flight.show', $flight->flight_number) }}"
                                     class="rounded-full py-3 px-5 text-center bg-garuda-blue hover:shadow-[0px_14px_30px_0px_#0068FF66] transition-all duration-300">
                                     <span class="font-semibold text-white">Choose</span>
                                 </a>
@@ -244,7 +273,8 @@
                                             <div>
                                                 <p class="text-sm text-garuda-grey mt-[2px]">Departure</p>
                                                 <p class="font-semibold">{{ $flight->segments->first()->airport->name }}
-                                                    ({{ $flight->segments->first()->airport->iata_code }})</p>
+                                                    ({{ $flight->segments->first()->airport->iata_code }})
+                                                </p>
                                             </div>
                                         </div>
                                     </div>
@@ -278,8 +308,8 @@
                                     @foreach ($flight->classes as $class)
                                         @foreach ($class->facilities as $facility)
                                             <div class="flex items-center gap-3 even:w-[139px] shrink-0">
-                                                <img src="{{ asset('storage/' . $facility->image) }}" class="w-6 h-6 flex shrink-0"
-                                                    alt="icon">
+                                                <img src="{{ asset('storage/' . $facility->image) }}"
+                                                    class="w-6 h-6 flex shrink-0" alt="icon">
                                                 <div>
                                                     <p class="font-semibold text-sm">{{ $facility->name }}</p>
                                                     <p class="text-xs leading-[18px] text-garuda-grey">Included</p>
