@@ -17,7 +17,7 @@
             <p class="font-semibold text-sm">Top Flight Awards Fly Group Sky 500</p>
         </div>
         <h1 class="font-extrabold text-[50px] leading-[75px]">Explore Magical <br>Wonderful Worlds</h1>
-        <p class="text-lg leading-8">Your truly great experience starts here with us <br>that lorem dolor amet si package
+        <p class="text-lg leading-8">Your truly great experience starts here with us <br>that convenient
             exclusively matter.</p>
     </div>
     <form action="{{ route('flight.index') }}" method="GET"
