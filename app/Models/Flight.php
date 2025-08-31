@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Support\Facades\Log;
 
 class Flight extends Model
 {
@@ -73,8 +72,6 @@ class Flight extends Model
                             'is_available' => true,
                             'class_type' => $class->class_type,
                         ]);
-
-                        Log::info("Generating seat for class type: " . $class->class_type);
 
                         $seatCounter++;
                     }

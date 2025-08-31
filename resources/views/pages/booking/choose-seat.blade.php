@@ -130,7 +130,7 @@
                             </div>
                             <div>
                                 <p class="text-sm text-garuda-grey">Tiers</p>
-                                <p class="font-semibold text-lg leading-[27px] mt-[2px]">Economy</p>
+                                <p class="font-semibold text-lg leading-[27px] mt-[2px]">{{ Str::ucfirst($tier->class_type) }}</p>
                             </div>
                             <div>
                                 <p class="text-sm text-garuda-grey">Seats</p>
@@ -171,7 +171,9 @@
                 <div class="relative flex flex-col justify-end">
                     <img id="Plane-Windshield" src="{{ asset('assets/images/backgrounds/plane-windshield.svg') }}"
                         class="absolute top-16 w-full object-contain px-[56px]" alt="image">
-                    <form action="passenger-details.html" class="relative px-[56px] pb-[60px]" id="form-seat">
+                    <form action="{{ route('booking.confirmSeat', $flight->flight_number) }}" method="POST" class="relative px-[56px] pb-[60px]" id="form-seat">
+                        @csrf
+                        <input type="hidden" name="flight_class_id" value="{{ $flight->id }}">
                         <p class="text-center font-bold text-xl leading-[30px]">{{ Str::ucfirst($tier->class_type)}} Class</p>
                         <div id="Legend" class="flex items-center justify-center mb-[30px] gap-5 mt-5">
                             <div class="flex items-center gap-[6px]">

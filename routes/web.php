@@ -11,5 +11,10 @@ Route::get('/flights', [FlightController::class, 'index'])->name('flight.index')
 Route::get('/flights/{flightNumber}/choose-tier', [FlightController::class, 'show'])->name('flight.show');
 
 Route::get('/flights/booking/{flightNumber}', [BookingController::class, 'booking'])->name('booking');
+
 Route::get('/flights/booking/{flightNumber}/choose-seat', [BookingController::class, 'chooseSeat'])->name('booking.chooseSeat');
+Route::post('/flights/booking/{flightNumber}/confirm-seat', [BookingController::class, 'confirmSeat'])->name('booking.confirmSeat');
+
+Route::get('/flights/booking/{flightNumber}/passenger-details', [BookingController::class, 'passengerDetails'])->name('booking.passengerDetails');
+
 Route::get('/check-booking', [BookingController::class, 'checkBooking'])->name('booking.check');
