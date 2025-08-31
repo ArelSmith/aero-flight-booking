@@ -15,7 +15,7 @@ class FlightSeat extends Model
         'name',
         'row',
         'column',
-        'class',
+        'class_type',
         'is_available',
     ];
 
