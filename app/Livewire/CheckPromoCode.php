@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use App\Models\PromoCode;
+use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class CheckPromoCode extends Component
@@ -25,6 +26,7 @@ class CheckPromoCode extends Component
     }
 
     private function findPromoCode($promoCode) {
+        
         return PromoCode::where('code', $promoCode)
             ->where('valid_until', '>=', now())
             ->where('is_used', false)
@@ -47,6 +49,7 @@ class CheckPromoCode extends Component
         $this->dispatch('promoCodeUpdated', [
             'discount' => $this->discount,
             'discount_type' => $this->discount_type,
+            'promo_code' => $this->promo_code,
         ]);
     }
 

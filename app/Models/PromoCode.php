@@ -18,6 +18,10 @@ class PromoCode extends Model
         'is_used',
     ];
 
+    protected $casts = [
+        'valid_until' => 'datetime'
+    ];
+
     public function transaction()
     {
         return $this->hasOne(Transaction::class);

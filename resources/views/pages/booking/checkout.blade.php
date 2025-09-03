@@ -125,7 +125,7 @@
                                 <div>
                                     <p class="text-sm text-garuda-grey">Price</p>
                                     <p class="font-semibold text-lg leading-[27px] mt-[2px]">
-                                        {{ 'Rp. ' . number_format($tier->price, 2, ',', '.') }}</p>
+                                        {{ 'Rp. ' . number_format($tier->price, 0, ',', '.') }}</p>
                                 </div>
                                 <div>
                                     <p class="text-sm text-garuda-grey">Govt. Tax</p>
@@ -134,7 +134,21 @@
                                 <div>
                                     <p class="text-sm text-garuda-grey">Sub Total</p>
                                     <p class="font-semibold text-lg leading-[27px] mt-[2px]">
-                                        {{ 'Rp. ' . number_format($tier->price * count($transaction['selected_seats']), 2, ',', '.') }}
+                                        {{ 'Rp. ' . number_format($tier->price * count($transaction['selected_seats']), 0, ',', '.') }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <p class="text-sm text-garuda-grey">Discount</p>
+                                    <p class="font-semibold text-lg leading-[27px] mt-[2px] text-garuda-green" id="discount">
+                                        Rp. 0
+                                    </p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-garuda-grey">Promo Code</p>
+                                    <p class="font-semibold text-lg leading-[27px] mt-[2px]" id="promo-code">
+                                        -
                                     </p>
                                 </div>
                             </div>
@@ -142,13 +156,13 @@
                                 <div>
                                     <p class="text-sm text-garuda-grey">Total Tax</p>
                                     <p class="font-semibold text-lg leading-[27px] mt-[2px]">
-                                        {{ 'Rp. ' . number_format($tier->price * count($transaction['selected_seats']) * 0.11, 2, ',', '.') }}
+                                        {{ 'Rp. ' . number_format($tier->price * count($transaction['selected_seats']) * 0.11, 0, ',', '.') }}
                                     </p>
                                 </div>
                                 <div>
                                     <p class="text-sm text-garuda-grey">Grand Total</p>
-                                    <p class="font-bold text-2xl leading-9 text-garuda-blue mt-[2px]">
-                                        {{ 'Rp. ' . number_format($tier->price * count($transaction['selected_seats']) * 1.11, 2, ',', '.') }}
+                                    <p class="font-bold text-2xl leading-9 text-garuda-blue mt-[2px]" id="grand-total">
+                                        {{ 'Rp. ' . number_format($tier->price * count($transaction['selected_seats']) * 1.11, 0, ',', '.') }}
                                     </p>
                                 </div>
                             </div>
@@ -326,8 +340,8 @@
                                 <img src="{{ asset('assets/images/icons/note-add-black.svg') }}"
                                     class="w-5 flex shrink-0 group-has-[:checked]:invert transition-all duration-300"
                                     alt="icon">
-                                <span class="font-semibold group-has-[:checked]:text-white">Transfer to Bank</span>
-                                <input type="radio" name="payment-method" class="absolute opacity-0 left-1/2" required>
+                                <span class="font-semibold group-has-[:checked]:text-white">Transfer to Bank (Next Update)</span>
+                                <input type="radio" name="payment-method" class="absolute opacity-0 left-1/2" disabled>
                             </label>
                         </div>
                     </div>
@@ -339,4 +353,38 @@
             </form>
         </div>
     </main>
+@endsection
+
+@section('scripts')
+    <script>
+        window.addEventListener('promoCodeUpdated', event => {
+            // ambil harga produk
+            const data = event.detail[0];
+            const price = parseFloat("{{ $tier->price }}");
+            const quantity = parseInt("{{ count($transaction['selected_seats']) }}");
+            const totalWithoutDiscount = price * quantity * 1.11;
+
+            // variabel untuk menyimpan total
+            let newTotal;
+            let totalPromo = 0;
+
+            // cek tipe diskon dan hitung total
+            const promoCode = data.promo_code;
+            const discountType = data.discount_type;
+            const discountValue = data.discount;
+
+            if(discountType === 'percentage') {
+                totalPromo = totalWithoutDiscount * (discountValue / 100);
+            } else {
+                totalPromo = discountValue;
+            }
+
+            newTotal = totalWithoutDiscount - totalPromo;
+
+            // update semua
+            document.getElementById('promo-code').innerHTML = promoCode;
+            document.getElementById('grand-total').innerHTML = 'Rp ' + newTotal.toLocaleString('id-ID');
+            document.getElementById('discount').innerHTML = '- Rp ' + totalPromo.toLocaleString('id-ID');
+        })
+    </script>
 @endsection
