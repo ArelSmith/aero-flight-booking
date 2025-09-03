@@ -210,6 +210,8 @@
                     </div>
                 </div>
                 @foreach ($transaction['selected_seats'] as $transaction)
+                    <input type="hidden" name="passengers[{{ $loop->index }}][flight_seat_id]" value="{{ $transaction }}">
+                    
                     <div id="Passenger-{{ $loop->index + 1 }}"
                         class="accordion-with-select group flex flex-col h-fit rounded-[20px] bg-white overflow-hidden transition-all duration-300">
                         <button type="button" class="accordion-btn flex items-center justify-between p-5">

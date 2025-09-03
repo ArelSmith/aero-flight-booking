@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StorePassengerDetailRequest;
 use App\Interfaces\FlightRepositoryInterface;
 use App\Interfaces\TransactionRepositoryInterface;
+use Midtrans\Config;
+use Midtrans\Snap;
 use Illuminate\Http\Request;
 
 class BookingController extends Controller
@@ -57,6 +59,30 @@ class BookingController extends Controller
         $tier = $flight->classes->find($transaction['flight_class_id']);
 
         return view('pages.booking.checkout', compact('flight', 'tier', 'transaction'));
+    }
+
+    public function payment(Request $request) {
+        dd($request->all());
+        $this->transactionRepository->saveTransactionDataToSession($request->all());
+
+        $transaction = $this->transactionRepository->saveTransaction($this->transactionRepository->getTransactionDataFromSession());
+
+        // process midtrans
+        Config::$serverKey = config('midtrans.serverKey');
+        Config::$isProduction = config('midtrans.isProduction');
+        Config::$isSanitized = config('midtrans.isSanitized');
+        Config::$is3ds = config('midtrans.is3ds');
+
+        $params = [
+            'transaction_details' => [
+                'order_id' => $transaction->code,
+                'gross_amount' => $transaction->grandtotal,
+            ]
+        ];
+        
+        $paymentUrl = Snap::createTransaction($params)->redirect_url;
+
+        return redirect($paymentUrl);
     }
 
     public function checkBooking() {

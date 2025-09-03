@@ -12,7 +12,7 @@
     <main class="relative flex flex-col w-full max-w-[1280px] px-[75px] mx-auto mt-[50px] mb-[62px]">
         <a href="choose-seats-economy.html"
             class="flex items-center rounded-[50px] py-3 px-5 gap-[10px] w-fit bg-garuda-black">
-            <img src="assets/images/icons/arrow-left-white.svg" class="w-6 h-6" alt="icon">
+            <img src="{{ asset('assets/images/icons/arrow-left-white.svg') }}" class="w-6 h-6" alt="icon">
             <p class="font-semibold text-white">Back to Choose Seats</p>
         </a>
         <h1 class="font-extrabold text-[50px] leading-[75px] mt-[30px]">Passenger Details</h1>
@@ -168,14 +168,12 @@
                             </div>
                         </div>
                     </div>
-                    <button type="submit"
-                        class="w-full rounded-full py-3 px-5 text-center bg-garuda-blue hover:shadow-[0px_14px_30px_0px_#0068FF66] transition-all duration-300">
-                        <span class="font-semibold text-white">Continue Booking</span>
-                    </button>
+                    
                 </div>
                 
             </div>
-            <form action="success-booking.html" id="Right-Content" class="flex flex-col gap-[30px] w-[490px] shrink-0">
+            <form action="{{ route('booking.payment', ['flightNumber' => $flight->flight_number]) }}" method="POST" id="Right-Content" class="flex flex-col gap-[30px] w-[490px] shrink-0">
+                @csrf
                 <div id="Customer-Info"
                     class="accordion group flex flex-col h-fit rounded-[20px] bg-white overflow-hidden has-[:checked]:!h-[75px] transition-all duration-300">
                     <label class="flex items-center justify-between p-5">
@@ -191,7 +189,7 @@
                                 class="flex items-center rounded-full border border-garuda-black py-3 px-5 gap-[10px] focus-within:border-[#0068FF] transition-all duration-300">
                                 <img src="{{ asset('assets/images/icons/profile-black.svg') }}" class="w-5 flex shrink-0"
                                     alt="icon">
-                                <input type="text" name="" id="" value="{{ $transaction['name'] }}"
+                                <input type="text" id="" value="{{ $transaction['name'] }}"
                                     readonly
                                     class="appearance-none outline-none w-full font-semibold placeholder:font-normal"
                                     placeholder="Write your complete name">
@@ -202,7 +200,7 @@
                             <div
                                 class="flex items-center rounded-full border border-garuda-black py-3 px-5 gap-[10px] focus-within:border-[#0068FF] transition-all duration-300">
                                 <img src="{{ asset('assets/images/icons/sms-black.png') }}" class="w-5 flex shrink-0" alt="icon">
-                                <input type="email" name="" id="" value="{{ $transaction['email'] }}" readonly
+                                <input type="email" id="" value="{{ $transaction['email'] }}" readonly
                                     class="appearance-none outline-none w-full font-semibold placeholder:font-normal"
                                     placeholder="Write your valid email">
                             </div>
@@ -212,7 +210,7 @@
                             <div
                                 class="flex items-center rounded-full border border-garuda-black py-3 px-5 gap-[10px] focus-within:border-[#0068FF] transition-all duration-300">
                                 <img src="{{ asset('assets/images/icons/call-black.svg') }}" class="w-5 flex shrink-0" alt="icon">
-                                <input type="tel" name="" id="" value="{{ $transaction['phone'] }}" readonly
+                                <input type="tel" id="" value="{{ $transaction['phone'] }}" readonly
                                     class="appearance-none outline-none w-full font-semibold placeholder:font-normal"
                                     placeholder="Write your active number">
                             </div>
@@ -220,6 +218,7 @@
                     </div>
                 </div>
                 @foreach ($transaction['passengers'] as $passenger)
+                    <input type="hidden" name="passengers[{{ $loop->index }}][flight_seat_id]" value="{{ $passenger['flight_seat_id'] }}">
                     <div id="Passenger-{{ $loop->index + 1 }}"
                         class="accordion-with-select group flex flex-col h-fit rounded-[20px] bg-white overflow-hidden transition-all duration-300">
                         <button type="button" class="accordion-btn flex items-center justify-between p-5">

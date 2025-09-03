@@ -20,5 +20,6 @@ Route::get('/flights/booking/{flightNumber}/passenger-details', [BookingControll
 Route::post('/flights/booking/{flightNumber}/save-passenger-details', [BookingController::class, 'savePassengerDetails'])->name('booking.savePassengerDetails');
 
 Route::get('/flights/booking/{flightNumber}/checkout', [BookingController::class, 'checkout'])->name('booking.checkout');
+Route::post('/flights/booking/{flightNumber}/payment', [BookingController::class, 'payment'])->name('booking.payment');
 
 Route::get('/check-booking', [BookingController::class, 'checkBooking'])->name('booking.check');
