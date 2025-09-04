@@ -92,6 +92,7 @@
                                         {{ 'Rp. ' . number_format($tier->price, 2, ',', '.') }}</p>
                                 </div>
                             </div>
+                            
                         </div>
                     </div>
                     <div id="Transaction-Info"
