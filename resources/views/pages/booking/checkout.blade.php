@@ -244,7 +244,7 @@
                             <div class="flex flex-col gap-[10px]">
                                 <p class="font-semibold">Date of Birth</p>
                                 <input type="hidden" name="passengers[{{ $loop->index }}][date_of_birth]"
-                                    id="dateOfBirth-{{ $loop->index }}" date-index="{{ $loop->index }}">
+                                    id="dateOfBirth-{{ $loop->index }}" date-index="{{ $loop->index }}" value="{{ $passenger['date_of_birth'] }}">
                                 <div class="flex items-center gap-[10px] ">
                                     <label
                                         class="relative flex items-center w-full rounded-full overflow-hidden border border-garuda-black gap-[10px] focus-within:border-[#0068FF] transition-all duration-300 @error('passengers.' . $loop->index . '.date_of_birth') border-red-500 @enderror">
@@ -355,6 +355,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{ asset('assets/js/date-of-birth.js') }}"></script>
     <script>
         window.addEventListener('promoCodeUpdated', event => {
             // ambil harga produk
