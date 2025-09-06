@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ShowBookingRequest;
 use App\Http\Requests\StorePassengerDetailRequest;
 use App\Interfaces\FlightRepositoryInterface;
 use App\Interfaces\TransactionRepositoryInterface;
@@ -96,5 +97,15 @@ class BookingController extends Controller
 
     public function checkBooking() {
         return view('pages.booking.check-booking');
+    }
+
+    public function show(ShowBookingRequest $request) {
+        // dd($request->all());
+        $transaction = $this->transactionRepository->getTransactionByCodePhone($request->code, $request->phone);
+
+        if(!$transaction) {
+            return redirect()->back()->with('error', 'Transaction not found');
+        }
+        return view('pages.booking.detail', compact('transaction'));
     }
 }
