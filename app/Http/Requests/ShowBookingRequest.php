@@ -26,4 +26,18 @@ class ShowBookingRequest extends FormRequest
             'phone' => 'required'
         ];
     }
+
+    public function attributes(): array {
+        return [
+            'code' => 'Booking ID',
+            'phone' => 'Phone Number'
+        ];
+    }
+
+    public function messages(): array {
+        return [
+            'code' => "The :attribute is required",
+            'phone' => "The :attribute is required",
+        ];
+    }
 }
